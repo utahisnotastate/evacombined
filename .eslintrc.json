@@ -1,46 +1,44 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-
-    "overrides": [
-        {
-            "files": [
-                "**/*.stories.*"
-            ]
-        }
-    ],
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint",
-        "prettier"
-    ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:import/typescript",
-        "prettier"
-    ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "tsconfigRootDir": ".",
-        "project": "./tsconfig.json"
-    },
-
-
-    "rules": {
-        "import/no-anonymous-default-export": "off",
-        "import/extensions": "off",
-        "react/jsx-filename-extension": "off",
-        "import/no-unresolved": "error"
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.stories.*"
+      ]
     }
+  ],
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "tsconfigRootDir": ".",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "import/no-anonymous-default-export": "off",
+    "import/extensions": "off",
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    "import/no-unresolved": "error"
+  }
 }

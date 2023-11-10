@@ -30,7 +30,7 @@ export default function Root() {
 							Patients
 						</Typography>
 					</Link>
-					<Link to={`/patients/1`}>
+					<Link to={`/patients/:patientId`}>
 						<Typography variant="h6" component="div">
 							Edit Patient
 						</Typography>

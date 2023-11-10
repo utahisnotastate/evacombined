@@ -1,11 +1,14 @@
 import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
+import { patientsLoader, patientLoader } from './loaders'
 import Root from './root'
+import Patient from '../components/Patient/patient'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Root />,
+		loader: patientsLoader,
 		children: [
 			{
 				path: 'requests/:requestId',
@@ -20,7 +23,7 @@ const router = createBrowserRouter([
 				element: <p>Appointments</p>,
 			},
 			{
-				path: 'appointments/:appointmentId',
+				path: 'appointments/:a ppointmentId',
 				element: <p>Appointment Detail</p>,
 			},
 			{
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'patients/:patientId',
-				element: <p>Patient Detail</p>,
+				element: <Patient />,
 			},
 		],
 	},
