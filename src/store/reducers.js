@@ -27,8 +27,18 @@ function Requests(state = [], action) {
 	}
 }
 
+function Providers(state = [], action) {
+	switch (action.type) {
+		case 'SET_PROVIDERS':
+			return action.providers
+		default:
+			return state
+	}
+}
+
 const rootReducer = combineReducers({
 	Appointments,
+	Providers,
 	Patients,
 	Requests,
 })

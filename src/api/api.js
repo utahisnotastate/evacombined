@@ -32,6 +32,16 @@ export const getAppointment = async (id) => {
 	const result = await axios(`${API_URL}/appointments/${id}/`)
 	return result.data
 }
+
+export const scheduleAppointment = async (id, appointment, hideModal) => {
+	const result = await axios
+		.post(`${API_URL}/appointments/${id}/`, appointment)
+		.then((response) => {
+			hideModal()
+			return response
+		})
+	return result.data
+}
 export const getProviders = async () => {
 	const result = await axios(`${API_URL}/providers/`)
 	return result.data
