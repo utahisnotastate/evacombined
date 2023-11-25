@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Paper from '@mui/material/Paper'
-import { ViewState, EditingState } from '@devexpress/dx-react-scheduler'
+import { ViewState } from '@devexpress/dx-react-scheduler'
 import {
 	Scheduler,
 	Appointments,
@@ -20,7 +20,26 @@ const Scheduling = () => {
 	const [appointmentChanges, setAppointmentChanges] = useState({})
 	const [editingAppointment, setEditingAppointment] = useState(undefined)
 
-	const commitChanges = ({ added, changed, deleted }) => {
+	return (
+		<Paper>
+			<Scheduler data={appointments} height={660}>
+				<ViewState currentDate={currentDate} />
+				<WeekView startDayHour={9} endDayHour={17} />
+				<AllDayPanel />
+				<EditRecurrenceMenu />
+				<ConfirmationDialog />
+				<Appointments />
+				<AppointmentTooltip showOpenButton showDeleteButton />
+				<AppointmentForm />
+			</Scheduler>
+		</Paper>
+	)
+}
+
+export default Scheduling
+
+/*
+const commitChanges = ({ added, changed, deleted }) => {
 		setData((prevData) => {
 			let updatedData = [...prevData]
 
@@ -53,11 +72,8 @@ const Scheduling = () => {
 		})
 	}
 
-	return (
-		<Paper>
-			<Scheduler data={appointments} height={660}>
-				<ViewState currentDate={currentDate} />
-				<EditingState
+
+* <EditingState
 					onCommitChanges={commitChanges}
 					addedAppointment={addedAppointment}
 					onAddedAppointmentChange={setAddedAppointment}
@@ -66,16 +82,6 @@ const Scheduling = () => {
 					editingAppointment={editingAppointment}
 					onEditingAppointmentChange={setEditingAppointment}
 				/>
-				<WeekView startDayHour={9} endDayHour={17} />
-				<AllDayPanel />
-				<EditRecurrenceMenu />
-				<ConfirmationDialog />
-				<Appointments />
-				<AppointmentTooltip showOpenButton showDeleteButton />
-				<AppointmentForm />
-			</Scheduler>
-		</Paper>
-	)
-}
-
-export default Scheduling
+*
+*
+* */

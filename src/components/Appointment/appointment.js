@@ -89,6 +89,9 @@ const Appointment = () => {
 	return (
 		<Card>
 			<CardContent>
+				<Typography gutterBottom>Save Appointment</Typography>
+			</CardContent>
+			<CardContent>
 				<Stack
 					direction={`row`}
 					divider={<Divider orientation={`vertical`} flexItem />}
