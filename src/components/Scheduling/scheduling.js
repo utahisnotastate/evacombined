@@ -1,29 +1,81 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import Paper from '@mui/material/Paper'
+import { ViewState, EditingState } from '@devexpress/dx-react-scheduler'
 import {
 	Scheduler,
-	WeekView,
-	MonthView,
-	DayView,
 	Appointments,
-	Resources,
-	AppointmentTooltip,
 	AppointmentForm,
+	AppointmentTooltip,
+	WeekView,
+	EditRecurrenceMenu,
+	AllDayPanel,
+	ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui'
-import { useDispatch, useSelector } from 'react-redux'
 
-export default function Scheduling() {
+const Scheduling = () => {
 	const appointments = useSelector((state) => state.appointments)
-	const providers = useSelector((state) => state.providers)
+	const [currentDate, setCurrentDate] = useState('2018-06-27')
+	const [addedAppointment, setAddedAppointment] = useState({})
+	const [appointmentChanges, setAppointmentChanges] = useState({})
+	const [editingAppointment, setEditingAppointment] = useState(undefined)
+
+	const commitChanges = ({ added, changed, deleted }) => {
+		setData((prevData) => {
+			let updatedData = [...prevData]
+
+			if (added) {
+				const startingAddedId =
+					prevData.length > 0
+						? prevData[prevData.length - 1].id + 1
+						: 0
+				updatedData = [
+					...updatedData,
+					{ id: startingAddedId, ...added },
+				]
+			}
+
+			if (changed) {
+				updatedData = updatedData.map((appointment) =>
+					changed[appointment.id]
+						? { ...appointment, ...changed[appointment.id] }
+						: appointment
+				)
+			}
+
+			if (deleted !== undefined) {
+				updatedData = updatedData.filter(
+					(appointment) => appointment.id !== deleted
+				)
+			}
+
+			return updatedData
+		})
+	}
 
 	return (
-		<Scheduler data={appointments}>
-			<WeekView startDayHour={9} endDayHour={19} />
-			<MonthView />
-			<DayView />
-			<Appointments />
-			<Resources data={providers} />
-			<AppointmentTooltip showCloseButton showOpenButton />
-			<AppointmentForm />
-		</Scheduler>
+		<Paper>
+			<Scheduler data={appointments} height={660}>
+				<ViewState currentDate={currentDate} />
+				<EditingState
+					onCommitChanges={commitChanges}
+					addedAppointment={addedAppointment}
+					onAddedAppointmentChange={setAddedAppointment}
+					appointmentChanges={appointmentChanges}
+					onAppointmentChangesChange={setAppointmentChanges}
+					editingAppointment={editingAppointment}
+					onEditingAppointmentChange={setEditingAppointment}
+				/>
+				<WeekView startDayHour={9} endDayHour={17} />
+				<AllDayPanel />
+				<EditRecurrenceMenu />
+				<ConfirmationDialog />
+				<Appointments />
+				<AppointmentTooltip showOpenButton showDeleteButton />
+				<AppointmentForm />
+			</Scheduler>
+		</Paper>
 	)
 }
+
+export default Scheduling

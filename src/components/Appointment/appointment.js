@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import annyang from 'annyang'
 import {
 	Button,
-	Container,
+	Card,
 	Typography,
-	Paper,
-	Box,
+	Divider,
 	TextField,
+	Stack,
+	CardContent,
 } from '@mui/material'
 
 const Appointment = () => {
@@ -86,58 +87,60 @@ const Appointment = () => {
 	}
 
 	return (
-		<Container maxWidth="sm">
-			<Typography variant="h4" align="center" gutterBottom>
-				Speech Recognition with Annyang
-			</Typography>
-			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					marginBottom: 2,
-				}}>
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={() => setIsListening(true)}
-					sx={{ marginRight: 1 }}>
-					Start
-				</Button>
-				<Button
-					variant="contained"
-					color="secondary"
-					onClick={() => setIsListening(false)}>
-					Stop
-				</Button>
-			</Box>
-			<Button variant={`contained`} onClick={handleSubmitToGPT3}>
-				Generate Medical Office Note
-			</Button>
-			<Paper
-				elevation={3}
-				style={{
-					padding: '16px',
-					display: 'flex',
-					flexDirection: 'column',
-				}}>
-				<Typography variant="h6" gutterBottom>
-					Transcript:
-				</Typography>
-				<TextField
-					fullWidth
-					multiline
-					rows={4}
-					variant="outlined"
-					value={transcript}
-					onChange={(e) => setTranscript(e.target.value)}
-				/>
-				<Typography>
-					{gpt3Response
-						? gpt3Response
-						: `Please begin recording your transcript`}
-				</Typography>
-			</Paper>
-		</Container>
+		<Card>
+			<CardContent>
+				<Stack
+					direction={`row`}
+					divider={<Divider orientation={`vertical`} flexItem />}
+					spacing={2}>
+					<div>
+						<div>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={() => setIsListening(true)}
+								sx={{ marginRight: 1 }}>
+								Start Appointment
+							</Button>
+							<Button
+								variant="contained"
+								color="secondary"
+								onClick={() => setIsListening(false)}>
+								End Appointment
+							</Button>
+							<Typography variant="h6" gutterBottom>
+								Transcript:
+							</Typography>
+							<TextField
+								fullWidth
+								multiline
+								rows={4}
+								variant="outlined"
+								value={transcript}
+								onChange={(e) => setTranscript(e.target.value)}
+							/>
+							<Button
+								variant={`contained`}
+								onClick={handleSubmitToGPT3}>
+								Generate Medical Office Note
+							</Button>
+						</div>
+					</div>
+
+					<div>
+						<Typography>Medical Office Note</Typography>
+						<TextField
+							fullWidth
+							multiline
+							rows={4}
+							variant="outlined"
+							value={gpt3Response}
+							onChange={(e) => setGpt3Response(e.target.value)}
+						/>
+					</div>
+				</Stack>
+			</CardContent>
+		</Card>
 	)
 }
 

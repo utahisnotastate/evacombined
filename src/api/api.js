@@ -42,6 +42,16 @@ export const scheduleAppointment = async (id, appointment, hideModal) => {
 		})
 	return result.data
 }
+
+export const saveAppointment = async (id, appointment, hideModal) => {
+	const result = await axios
+		.put(`${API_URL}/appointments/${id}/`, appointment)
+		.then((response) => {
+			hideModal()
+			return response
+		})
+	return result.data
+}
 export const getProviders = async () => {
 	const result = await axios(`${API_URL}/providers/`)
 	return result.data

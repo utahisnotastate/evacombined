@@ -17,6 +17,12 @@ const theme = createTheme({
 			},
 			styleOverrides: {
 				root: {
+					'&:hover': {
+						backgroundColor: 'rgba(0, 0, 0, 0.08)',
+					},
+					'&:active': {
+						backgroundColor: 'rgba(0, 0, 0, 0.12)',
+					},
 					textTransform: 'none',
 				},
 				sizeSmall: {
@@ -42,6 +48,15 @@ const theme = createTheme({
 		MuiButtonBase: {
 			defaultProps: {
 				disableRipple: true,
+			},
+		},
+		MuiCard: {
+			styleOverrides: {
+				root: {
+					borderRadius: 16,
+					boxShadow:
+						'0 4px 30px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.2)',
+				},
 			},
 		},
 		MuiCardContent: {
@@ -110,8 +125,9 @@ const theme = createTheme({
 		MuiTableHead: {
 			styleOverrides: {
 				root: {
-					backgroundColor: '#F3F4F6',
+					backgroundColor: '#E6E8F0',
 					'.MuiTableCell-root': {
+						fontWeight: 700,
 						color: '#374151',
 					},
 					borderBottom: 'none',
@@ -157,15 +173,15 @@ const theme = createTheme({
 		},
 		divider: '#E6E8F0',
 		primary: {
-			main: '#002F6C',
-			light: '#828DF8',
-			dark: '#3832A0',
+			main: '#4A90E2', // Softer blue
+			light: '#7CB7F1',
+			dark: '#2E68B6',
 			contrastText: '#FFFFFF',
 		},
 		secondary: {
-			main: '#fff',
-			light: '#3FC79A',
-			dark: '#0B815A',
+			main: '#32A852', // Soft green
+			light: '#5EC07F',
+			dark: '#237A3B',
 			contrastText: '#FFFFFF',
 		},
 		success: {
@@ -236,7 +252,7 @@ const theme = createTheme({
 			'"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
 		body1: {
 			fontSize: '1rem',
-			fontWeight: 400,
+			fontWeight: 500,
 			lineHeight: 1.5,
 		},
 		body2: {
@@ -292,7 +308,7 @@ const theme = createTheme({
 			lineHeight: 1.375,
 		},
 		h6: {
-			fontWeight: 600,
+			fontWeight: 700,
 			fontSize: '1.125rem',
 			lineHeight: 1.375,
 		},
