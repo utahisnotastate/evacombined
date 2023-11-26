@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, Form } from 'formik'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -11,6 +12,7 @@ import AllergiesForm from './allergiesform'
 import DemographicsForm from './demographicsform'
 import InsuranceForm from './insuranceform'
 import Appointments from './appointments'
+import { getPatient } from '../../api/api'
 
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -28,7 +30,10 @@ function CustomTabPanel(props) {
 }
 
 const Patient = () => {
+	const dispatch = useDispatch()
 	const { patientId } = useParams()
+	const patient = useSelector((state) => state.patient)
+
 	const [value, setValue] = useState(0)
 
 	const handleTabChange = (event, newTabValue) => {
@@ -38,52 +43,23 @@ const Patient = () => {
 	const handleSubmit = (values) => {
 		console.log(values)
 	}
-
+	//useEffect that when the component loads, it fetches the patient data from the API using the :patientID. Additionally, it should set the initial values of the form to the data returned from the API. The state.patient from the redux store should be used to populate the form.
+	useEffect(() => {
+		getPatient(patientId)
+			.then((data) => {
+				console.log(data)
+				dispatch({ type: 'SET_PATIENT', patient: data.patient })
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error)
+			})
+	}, [patientId])
 	return (
 		<Card>
 			<CardContent>
 				<Formik
-					initialValues={{
-						id: 136,
-						fields: [
-							{
-								name: 'additional_info_1',
-								value: 'Some additional information',
-							},
-							{
-								name: 'additional_info_2',
-								value: 'Some more additional information',
-							},
-						],
-						details: {
-							allergies: ['Penicillin', 'Peanuts'],
-							insurance: [
-								{
-									provider: 'HealthInsuranceCo',
-									policy_number: 'ABC1234567',
-									memberId: 'MEMBER-123456789',
-									dateEffected: '2021-01-01',
-									dateTerminated: '',
-									groupNumber: 'GROUP-12312341234',
-								},
-							],
-							medications: ['Aspirin', 'Tylenol'],
-							demographics: {
-								city: 'Springfield',
-								email: 'john.doe@example.com',
-								phone: '123-456-7890',
-								state: 'IL',
-								address: '123 Main St.',
-								zip_code: '12345',
-								last_name: 'Doe',
-								first_name: 'John',
-								date_of_birth: '1980-01-01',
-							},
-							medical_history: ['Asthma', 'High blood pressure'],
-							surgical_history: ['Appendectomy', 'Tonsillectomy'],
-						},
-						ssn: 123456789,
-					}}
+					initialValues={patient}
+					enableReinitialize={true}
 					onSubmit={handleSubmit}>
 					<Form>
 						<Box>

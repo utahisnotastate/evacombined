@@ -16,19 +16,24 @@ export default function PatientSearch() {
 
 	return (
 		<Autocomplete
+			fullWidth={true}
 			options={patients}
 			getOptionLabel={getOptionLabel}
 			renderOption={(props, option) => (
-				<Box component="li" {...props}>
-					<Typography variant="body1">
-						{`${option.details.demographics.first_name} ${option.details.demographics.last_name}`}
-					</Typography>
-					<Typography variant="body2" color="textSecondary">
-						{`Gender: ${
-							option.details.demographics.gender || 'N/A'
-						}, DOB: ${option.details.demographics.date_of_birth}`}
-					</Typography>
-				</Box>
+				<div onClick={() => console.log(option)}>
+					<NavLink to={`/patients/${option.id}/`}>
+						<Typography variant="body1">
+							{`${option.details.demographics.first_name} ${option.details.demographics.last_name}`}
+						</Typography>
+						<Typography variant="body2" color="textSecondary">
+							{`Gender: ${
+								option.details.demographics.gender || 'N/A'
+							}, DOB: ${
+								option.details.demographics.date_of_birth
+							}`}
+						</Typography>
+					</NavLink>
+				</div>
 			)}
 			renderInput={(params) => (
 				<TextField {...params} label="Search Patients" />

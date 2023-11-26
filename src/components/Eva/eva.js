@@ -5,9 +5,8 @@ import {
 	Drawer,
 	List,
 	ListItem,
-	ListItemButton,
 	ListItemText,
-	TextField,
+	ListItemButton,
 	Toolbar,
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -19,7 +18,7 @@ import Requests from '../Requests/requests'
 import Scheduling from '../Scheduling/scheduling'
 import PatientSearch from './patientsearch'
 
-const drawerWidth = 240
+const drawerWidth = 480
 
 export default function Eva() {
 	const dispatch = useDispatch()
