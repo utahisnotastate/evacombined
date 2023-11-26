@@ -26,8 +26,7 @@ const Scheduling = () => {
 				<ViewState currentDate={currentDate} />
 				<WeekView startDayHour={9} endDayHour={17} />
 				<AllDayPanel />
-				<EditRecurrenceMenu />
-				<ConfirmationDialog />
+
 				<Appointments />
 				<AppointmentTooltip showOpenButton showDeleteButton />
 				<AppointmentForm />

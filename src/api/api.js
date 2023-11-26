@@ -8,8 +8,15 @@ export const getPatients = async () => {
 }
 
 export const getPatient = async (id) => {
-	const result = await axios(`${API_URL}/patients/${id}/`)
-	console.log(result.data)
+	const patient = await axios(`${API_URL}/patients/${id}/`)
+	const appointments = await axios(`${API_URL}/patients/${id}/appointments/`)
+	const result = { patient: patient.data, appointments: appointments.data }
+	console.log(result)
+	return result
+}
+
+export const getPatientAppointments = async (id) => {
+	const result = await axios(`${API_URL}/patients/${id}/appointments/`)
 	return result.data
 }
 

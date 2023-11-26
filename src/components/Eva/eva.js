@@ -7,6 +7,7 @@ import {
 	ListItem,
 	ListItemButton,
 	ListItemText,
+	TextField,
 	Toolbar,
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -16,6 +17,7 @@ import Appointment from '../Appointment/appointment'
 import Patient from '../Patient/patient'
 import Requests from '../Requests/requests'
 import Scheduling from '../Scheduling/scheduling'
+import PatientSearch from './patientsearch'
 
 const drawerWidth = 240
 
@@ -51,7 +53,9 @@ export default function Eva() {
 				}}
 				variant="permanent"
 				anchor="left">
-				<Toolbar />
+				<Toolbar>
+					<PatientSearch />
+				</Toolbar>
 				<Divider />
 				<List>
 					<ListItem disablePadding>
@@ -100,7 +104,7 @@ export default function Eva() {
 				<Routes>
 					<Route path="/" element={<Scheduling />} />
 					<Route
-						path="/newappointment/:patientId"
+						path="/appointments/new/:patientId"
 						element={<Appointment />}
 					/>
 					<Route

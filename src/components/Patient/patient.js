@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
+import { useParams } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
@@ -27,6 +28,7 @@ function CustomTabPanel(props) {
 }
 
 const Patient = () => {
+	const { patientId } = useParams()
 	const [value, setValue] = useState(0)
 
 	const handleTabChange = (event, newTabValue) => {
