@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Formik, Form } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, NavLink } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import AllergiesForm from './allergiesform'
@@ -33,13 +34,12 @@ const Patient = () => {
 	const dispatch = useDispatch()
 	const { patientId } = useParams()
 	const patient = useSelector((state) => state.patient)
-
+	const [appointments, setAppointments] = useState([])
 	const [value, setValue] = useState(0)
 
 	const handleTabChange = (event, newTabValue) => {
 		setValue(newTabValue)
 	}
-
 	const handleSubmit = (values) => {
 		console.log(values)
 	}
@@ -47,8 +47,10 @@ const Patient = () => {
 	useEffect(() => {
 		getPatient(patientId)
 			.then((data) => {
+				console.log('just got patient details')
 				console.log(data)
 				dispatch({ type: 'SET_PATIENT', patient: data.patient })
+				setAppointments(data.appointments)
 			})
 			.catch((error) => {
 				console.error('Error fetching data:', error)
@@ -57,6 +59,10 @@ const Patient = () => {
 	return (
 		<Card>
 			<CardContent>
+				<NavLink to={`/patients/${patientId}/newappointment`}>
+					<Typography>New Appointment for: {patientId}</Typography>
+				</NavLink>
+
 				<Formik
 					initialValues={patient}
 					enableReinitialize={true}
@@ -68,9 +74,6 @@ const Patient = () => {
 								<Tab label="Allergies" />
 								<Tab label="Insurance" />
 								<Tab label="Appointments" />
-								<Tab label="Medical History" />
-								<Tab label="Surgical History" />
-								<Tab label="Medications" />
 							</Tabs>
 						</Box>
 						<CustomTabPanel value={value} index={0}>
@@ -83,7 +86,7 @@ const Patient = () => {
 							<InsuranceForm />
 						</CustomTabPanel>
 						<CustomTabPanel value={value} index={3}>
-							<Appointments />
+							<Appointments appointments={appointments} />
 						</CustomTabPanel>
 					</Form>
 				</Formik>

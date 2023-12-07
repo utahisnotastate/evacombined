@@ -11,7 +11,6 @@ export const getPatient = async (id) => {
 	const patient = await axios(`${API_URL}/patients/${id}/`)
 	const appointments = await axios(`${API_URL}/patients/${id}/appointments/`)
 	const result = { patient: patient.data, appointments: appointments.data }
-	console.log(result)
 	return result
 }
 
@@ -40,25 +39,24 @@ export const getAppointment = async (id) => {
 	return result.data
 }
 
-export const scheduleAppointment = async (id, appointment, hideModal) => {
+export const scheduleAppointment = async (id, appointment) => {
 	const result = await axios
 		.post(`${API_URL}/appointments/${id}/`, appointment)
 		.then((response) => {
-			hideModal()
-			return response
+			console.log(response)
+			return response.data
 		})
-	return result.data
+	return result
 }
 
-export const saveAppointment = async (id, appointment, hideModal) => {
+export const saveAppointment = async (id, appointment) => {
 	const result = await axios
 		.put(`${API_URL}/appointments/${id}/`, appointment)
 		.then((response) => {
-			hideModal()
-			return response
+			console.log(response)
 		})
-	return result.data
 }
+
 export const getProviders = async () => {
 	const result = await axios(`${API_URL}/providers/`)
 	return result.data

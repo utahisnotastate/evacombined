@@ -1,51 +1,70 @@
-import React from 'react'
-import MUIDataTable from 'mui-datatables'
-import { useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import IconButton from '@material-ui/core/IconButton'
-import CleanHandsIcon from '@mui/icons-material/CleanHands'
+import * as React from 'react'
+import moment from 'moment'
+import Appointment from '../Appointment/appointment'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 
-const columns = [
-	{
-		name: 'status',
-		label: 'Status',
-	},
-	{
-		name: 'start',
-		label: 'Start Time',
-	},
-	{
-		name: 'end',
-		label: 'End Time',
-	},
-	{
-		name: 'appointmentlink',
-		label: 'Appointment',
-		options: {
-			customBodyRender: (value, tableMeta, updateValue) => {
-				return (
-					<NavLink to={`/appointments/${tableMeta.rowData[0]}`}>
-						View Appointment
-					</NavLink>
-				)
-			},
-		},
-	},
-]
-
-const options = {
-	filterType: 'checkbox',
-}
-
-export default function Appointments() {
-	const appointments = useSelector((state) => state.appointments)
+function TabPanel(props) {
+	const { children, value, index, ...other } = props
 
 	return (
-		<MUIDataTable
-			title={'Appointments'}
-			data={appointments}
-			columns={columns}
-			options={options}
-		/>
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`vertical-tabpanel-${index}`}
+			aria-labelledby={`vertical-tab-${index}`}
+			{...other}>
+			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+		</div>
+	)
+}
+
+function a11yProps(index) {
+	return {
+		id: `vertical-tab-${index}`,
+		'aria-controls': `vertical-tabpanel-${index}`,
+	}
+}
+
+export default function Appointments({ appointments }) {
+	const [value, setValue] = React.useState(0)
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue)
+	}
+
+	return (
+		<Box
+			sx={{
+				flexGrow: 1,
+				bgcolor: 'background.paper',
+				display: 'flex',
+				height: '100vh',
+			}}>
+			<Tabs
+				orientation="vertical"
+				variant="scrollable"
+				value={value}
+				onChange={handleChange}
+				aria-label="Vertical tabs example"
+				sx={{ borderRight: 1, borderColor: 'divider' }}>
+				{appointments && appointments.length > 0 ? (
+					appointments.map((appointment, index) => (
+						<Tab
+							key={index}
+							label={moment(appointment.start).format(
+								'MM-DD-YYYY'
+							)}
+							{...a11yProps(index)}
+						/>
+					))
+				) : (
+					<Typography>Patient has not been seen before</Typography>
+				)}
+			</Tabs>
+			<Appointment />
+		</Box>
 	)
 }

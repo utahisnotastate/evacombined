@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { getAllData } from '../../api/api'
 import Appointment from '../Appointment/appointment'
+import NewAppointment from '../Appointment/newappointment'
 import Patient from '../Patient/patient'
 import Requests from '../Requests/requests'
 import Scheduling from '../Scheduling/scheduling'
@@ -65,27 +66,6 @@ export default function Eva() {
 						</NavLink>
 					</ListItem>
 					<ListItem disablePadding>
-						<NavLink to={`/appointments/:appointmentId`}>
-							<ListItemButton>
-								<ListItemText primary={`Appointment`} />
-							</ListItemButton>
-						</NavLink>
-					</ListItem>
-					<ListItem disablePadding>
-						<NavLink to={`/patients/:patientId`}>
-							<ListItemButton>
-								<ListItemText primary={`Patient`} />
-							</ListItemButton>
-						</NavLink>
-					</ListItem>
-					<ListItem disablePadding>
-						<NavLink to={`/requests`}>
-							<ListItemButton>
-								<ListItemText primary={`Requests`} />
-							</ListItemButton>
-						</NavLink>
-					</ListItem>
-					<ListItem disablePadding>
 						<NavLink to={`/requests`}>
 							<ListItemButton>
 								<ListItemText primary={`Requests`} />
@@ -103,14 +83,14 @@ export default function Eva() {
 				<Routes>
 					<Route path="/" element={<Scheduling />} />
 					<Route
-						path="/appointments/new/:patientId"
-						element={<Appointment />}
-					/>
-					<Route
 						path="/appointments/:appointmentId"
 						element={<Appointment />}
 					/>
 					<Route path="/patients/:patientId" element={<Patient />} />
+					<Route
+						path="/patients/:patientId/newappointment"
+						element={<NewAppointment />}
+					/>
 					<Route path="/requests/:requestId" element={<Requests />} />
 				</Routes>
 			</Box>

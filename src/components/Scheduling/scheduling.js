@@ -8,9 +8,7 @@ import {
 	AppointmentForm,
 	AppointmentTooltip,
 	WeekView,
-	EditRecurrenceMenu,
 	AllDayPanel,
-	ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui'
 
 const Scheduling = () => {
@@ -26,7 +24,6 @@ const Scheduling = () => {
 				<ViewState currentDate={currentDate} />
 				<WeekView startDayHour={9} endDayHour={17} />
 				<AllDayPanel />
-
 				<Appointments />
 				<AppointmentTooltip showOpenButton showDeleteButton />
 				<AppointmentForm />
@@ -36,51 +33,3 @@ const Scheduling = () => {
 }
 
 export default Scheduling
-
-/*
-const commitChanges = ({ added, changed, deleted }) => {
-		setData((prevData) => {
-			let updatedData = [...prevData]
-
-			if (added) {
-				const startingAddedId =
-					prevData.length > 0
-						? prevData[prevData.length - 1].id + 1
-						: 0
-				updatedData = [
-					...updatedData,
-					{ id: startingAddedId, ...added },
-				]
-			}
-
-			if (changed) {
-				updatedData = updatedData.map((appointment) =>
-					changed[appointment.id]
-						? { ...appointment, ...changed[appointment.id] }
-						: appointment
-				)
-			}
-
-			if (deleted !== undefined) {
-				updatedData = updatedData.filter(
-					(appointment) => appointment.id !== deleted
-				)
-			}
-
-			return updatedData
-		})
-	}
-
-
-* <EditingState
-					onCommitChanges={commitChanges}
-					addedAppointment={addedAppointment}
-					onAddedAppointmentChange={setAddedAppointment}
-					appointmentChanges={appointmentChanges}
-					onAppointmentChangesChange={setAppointmentChanges}
-					editingAppointment={editingAppointment}
-					onEditingAppointmentChange={setEditingAppointment}
-				/>
-*
-*
-* */

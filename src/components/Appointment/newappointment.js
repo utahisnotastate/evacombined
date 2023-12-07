@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import SaveIcon from '@mui/icons-material/Save'
+import { useParams } from 'react-router-dom'
 import annyang from 'annyang'
 import {
 	Button,
 	Container,
 	Typography,
+	Card,
+	CardContent,
+	CardActions,
+	CardActionArea,
 	Paper,
 	Box,
 	TextField,
 } from '@mui/material'
 
-const Appointment = () => {
+const NewAppointment = () => {
+	const { patientId } = useParams()
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [gpt3Response, setGpt3Response] = useState('')
@@ -69,7 +74,7 @@ const Appointment = () => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
+					Authorization: `Bearer ${process.env.REACT_APP_OPENAI_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
 				},
 				body: JSON.stringify(requestBody),
 			})
@@ -86,74 +91,54 @@ const Appointment = () => {
 		}
 	}
 
-	const handleGenerateOfficeNote = async () => {
-		setIsListening(false)
-		const officenote = await handleSubmitToGPT3()
-		console.log(officenote)
-	}
-
 	return (
-		<Container>
+		<Card>
+			<Typography variant="h4" align="center" gutterBottom>
+				New Appointment for patient id: {patientId}
+			</Typography>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					marginBottom: 2,
+				}}>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => setIsListening(true)}
+					sx={{ marginRight: 1 }}>
+					Start
+				</Button>
+				<Button
+					variant="contained"
+					color="secondary"
+					onClick={() => setIsListening(false)}>
+					Stop
+				</Button>
+			</Box>
+			<Button variant={`contained`} onClick={handleSubmitToGPT3}>
+				Generate Medical Office Note
+			</Button>
 			<div>
-				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<SaveIcon
-						onClick={() => {
-							console.log('clicked to save')
-						}}
-					/>
-				</div>
+				<Typography variant="h6" gutterBottom>
+					Transcript:
+				</Typography>
+				<TextField
+					fullWidth
+					multiline
+					rows={4}
+					variant="outlined"
+					value={transcript}
+					onChange={(e) => setTranscript(e.target.value)}
+				/>
+				<Typography>
+					{gpt3Response
+						? gpt3Response
+						: `Please begin recording your transcript`}
+				</Typography>
 			</div>
-			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<Box
-					sx={{
-						display: 'flex',
-						marginBottom: 2,
-					}}>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={() => setIsListening(true)}
-						sx={{ marginRight: 1 }}>
-						Record
-					</Button>
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => setIsListening(false)}>
-						Generate Note
-					</Button>
-				</Box>
-				<Box>
-					<TextField
-						fullWidth
-						multiline
-						rows={4}
-						variant="outlined"
-						placeholder={`Transcript from recorded audio`}
-						value={transcript}
-						onChange={(e) => setTranscript(e.target.value)}
-					/>
-				</Box>
-				<Box>
-					<TextField
-						fullWidth
-						multiline
-						rows={4}
-						placeholder={`Finalized Medical Office Note`}
-						variant="outlined"
-						value={gpt3Response}
-						onChange={(e) => setGpt3Response(e.target.value)}
-					/>
-				</Box>
-			</div>
-		</Container>
+		</Card>
 	)
 }
 
-export default Appointment
-
-/*
-* 	<Button variant={`contained`} onClick={handleSubmitToGPT3}>
-						Save
-					</Button>
-* */
+export default NewAppointment
