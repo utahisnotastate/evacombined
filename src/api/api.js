@@ -49,12 +49,27 @@ export const scheduleAppointment = async (id, appointment) => {
 	return result
 }
 
-export const saveAppointment = async (id, appointment) => {
+/*export const saveAppointment = async (id, appointment) => {
 	const result = await axios
-		.put(`${API_URL}/appointments/${id}/`, appointment)
+		.patch(`${API_URL}/appointments/${id}/`, appointment)
 		.then((response) => {
 			console.log(response)
 		})
+	return result.data
+}*/
+
+export const saveAppointment = async (id, appointment) => {
+	try {
+		const response = await axios.patch(
+			`${API_URL}/appointments/${id}/`,
+			appointment
+		)
+		console.log(response)
+		return response.data
+	} catch (error) {
+		console.error('There was an error saving the appointment:', error)
+		// Handle the error according to your needs
+	}
 }
 
 export const getProviders = async () => {

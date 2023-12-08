@@ -4,33 +4,21 @@ import { Formik, Form, Field } from 'formik'
 import { Box, Button, LinearProgress, Typography } from '@mui/material'
 
 import { TextField } from 'formik-mui'
+import { saveAppointment } from '../../api/api'
 
-export default function AppointmentForm() {
+export default function AppointmentForm({ appointment }) {
 	return (
 		<Formik
-			initialValues={{
-				id: 104,
-				type: 'first_appointment',
-				status: 'scheduled',
-				start: '2023-10-05T13:30:00Z',
-				end: '2023-10-05T15:00:00Z',
-				fields: [],
-				transcript: 'dfgdfgdfgdfg',
-				cleanedtranscript: 'cleaned transcript',
-				note: 'w34w343434',
-				complaints: 'erer',
-				review_of_systems: '',
-				assessments: '',
-				plans: '',
-				physical_exam: '',
-				summary: '',
-				patient: 136,
-				provider: 4,
-			}}
+			initialValues={appointment}
 			onSubmit={(values, { setSubmitting }) => {
 				setSubmitting(true)
-				console.log(values)
-				setSubmitting(false)
+				saveAppointment(values.id, values)
+					.then((response) => {
+						console.log(response)
+						setSubmitting(false)
+						console.log(`IT SAVED AND WORKED!!!!`)
+					})
+					.catch((error) => console.log(error))
 			}}>
 			{({
 				values,

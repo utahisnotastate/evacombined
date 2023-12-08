@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { getAllData } from '../../api/api'
 import MedicalAppointment from '../Appointment/medicalappointment'
+import Appointments from '../Patient/appointments'
 import Patient from '../Patient/patient'
 import Requests from '../Requests/requests'
 import Scheduling from '../Scheduling/scheduling'
@@ -82,17 +83,13 @@ export default function Eva() {
 				<Routes>
 					<Route path="/" element={<Scheduling />} />
 					<Route
-						path="/appointment"
-						element={<MedicalAppointment />}
-					/>
-					<Route
 						path="/appointments/:appointmentId"
 						element={<MedicalAppointment />}
 					/>
 					<Route path="/patients/:patientId" element={<Patient />} />
 					<Route
 						path="/patients/:patientId/appointments"
-						element={<MedicalAppointment />}
+						element={<Appointments />}
 					/>
 					<Route path="/requests/:requestId" element={<Requests />} />
 				</Routes>
