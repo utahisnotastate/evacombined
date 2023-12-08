@@ -59,7 +59,7 @@ const Patient = () => {
 	return (
 		<Card>
 			<CardContent>
-				<NavLink to={`/patients/${patientId}/newappointment`}>
+				<NavLink to={`/appointment`}>
 					<Typography>New Appointment for: {patientId}</Typography>
 				</NavLink>
 

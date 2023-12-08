@@ -1,25 +1,11 @@
 import * as React from 'react'
 import moment from 'moment'
 import Appointment from '../Appointment/appointment'
+import MedicalAppointment from '../Appointment/medicalappointment'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`vertical-tabpanel-${index}`}
-			aria-labelledby={`vertical-tab-${index}`}
-			{...other}>
-			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-		</div>
-	)
-}
 
 function a11yProps(index) {
 	return {
@@ -50,6 +36,7 @@ export default function Appointments({ appointments }) {
 				onChange={handleChange}
 				aria-label="Vertical tabs example"
 				sx={{ borderRight: 1, borderColor: 'divider' }}>
+				<Tab label={`New Appointment`} value={0} />
 				{appointments && appointments.length > 0 ? (
 					appointments.map((appointment, index) => (
 						<Tab
@@ -57,7 +44,6 @@ export default function Appointments({ appointments }) {
 							label={moment(appointment.start).format(
 								'MM-DD-YYYY'
 							)}
-							{...a11yProps(index)}
 						/>
 					))
 				) : (

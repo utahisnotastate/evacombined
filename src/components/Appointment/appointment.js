@@ -103,6 +103,17 @@ const Appointment = () => {
 					/>
 				</div>
 			</div>
+			<div>
+				<div
+					style={{ display: 'flex', justifyContent: 'space-around' }}>
+					<Typography>Record Appointment</Typography>
+					<Typography>Cleaned Transcript</Typography>
+					<Typography>Additional Transcriptions</Typography>
+					<Typography>AI Generated Forms</Typography>
+					<Typography>Generated Medical Office Note</Typography>
+				</div>
+			</div>
+
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
 				<Box
 					sx={{
