@@ -1,18 +1,54 @@
 import * as React from 'react'
 
 import { Formik, Form, Field } from 'formik'
-import { Box, Button, LinearProgress, Typography } from '@mui/material'
-
+import {
+	Box,
+	Button,
+	LinearProgress,
+	Typography,
+	TextField as MUITextInput,
+} from '@mui/material'
+import annyang from 'annyang'
 import { TextField } from 'formik-mui'
 import { saveAppointment } from '../../api/api'
 
 export default function AppointmentForm({ appointment }) {
+	const [isListening, setIsListening] = React.useState(false)
+	const [transcript, setTranscript] = React.useState('')
+	const [gpt3Response, setGpt3Response] = React.useState('')
+
+	React.useEffect(() => {
+		if (annyang) {
+			const commands = {
+				'*text': function (text) {
+					setTranscript(
+						(prevTranscript) => prevTranscript + ' ' + text
+					)
+				},
+			}
+
+			annyang.addCommands(commands)
+
+			if (isListening) {
+				annyang.start()
+			} else {
+				annyang.pause()
+			}
+		}
+
+		return () => {
+			if (annyang) {
+				annyang.abort()
+			}
+		}
+	}, [isListening])
+
 	return (
 		<Formik
 			initialValues={appointment}
 			onSubmit={(values, { setSubmitting }) => {
 				setSubmitting(true)
-				saveAppointment(values.id, values)
+				saveAppointment(values)
 					.then((response) => {
 						console.log(response)
 						setSubmitting(false)
@@ -30,50 +66,6 @@ export default function AppointmentForm({ appointment }) {
 			}) => (
 				<Form>
 					<Box margin={1}>
-						<Button
-							sx={{ margin: 1 }}
-							variant="contained"
-							color="primary"
-							disabled={isSubmitting}
-							onClick={submitForm}>
-							Save
-						</Button>
-					</Box>
-					<Box margin={1}>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'space-between',
-							}}>
-							<div>
-								<Typography>Audio Transcript</Typography>
-							</div>
-							<div>
-								<Typography>
-									Cleaned and Formatted Transcript
-								</Typography>
-							</div>
-							<div>
-								<Typography>Plans</Typography>
-							</div>
-							<div>
-								<Typography>Medical Office Note</Typography>
-							</div>
-						</div>
-					</Box>
-					<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Audio Transcript"
-							InputProps={{ notched: true }}
-							name="transcript"
-						/>
-					</Box>
-					<Box margin={1}>
 						<Field
 							multiline
 							fullWidth
@@ -85,56 +77,24 @@ export default function AppointmentForm({ appointment }) {
 							name="cleanedtranscript"
 						/>
 					</Box>
-					<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Complaints"
-							placeholder={`Please describe the patient complaints`}
-							InputProps={{ notched: true }}
-							name="complaints"
-						/>
+				</Form>
+			)}
+		</Formik>
+	)
+}
+/*
+<Box margin={1}>
+						<Button
+							sx={{ margin: 1 }}
+							variant="contained"
+							color="primary"
+							disabled={isSubmitting}
+							onClick={submitForm}>
+							Save
+						</Button>
 					</Box>
-					<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Physical Exam"
-							InputProps={{ notched: true }}
-							name="physical_exam"
-						/>
-					</Box>
-					<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Assessments"
-							InputProps={{ notched: true }}
-							name="assessments"
-						/>
-					</Box>
-					<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Plans"
-							InputProps={{ notched: true }}
-							name="plans"
-						/>
-					</Box>
-					<Box margin={1}>
+
+<Box margin={1}>
 						<Field
 							multiline
 							fullWidth
@@ -146,10 +106,24 @@ export default function AppointmentForm({ appointment }) {
 							name="note"
 						/>
 					</Box>
-					{isSubmitting && <LinearProgress />}
-					<pre>{JSON.stringify(values, null, 2)}</pre>
-				</Form>
-			)}
-		</Formik>
-	)
-}
+
+<Box margin={1}>
+						<RecordVoiceOverIcon
+							fontSize="large"
+							onClick={() => setIsListening(true)}
+						/>
+						<StopIcon
+							fontSize="large"
+							onClick={() => setIsListening(false)}
+						/>
+						<Typography>
+							Status:{' '}
+							{isListening
+								? 'Recording in process'
+								: 'Press record'}
+						</Typography>
+
+					</Box>
+* 	<pre>{JSON.stringify(values, null, 2)}</pre>
+*
+* */

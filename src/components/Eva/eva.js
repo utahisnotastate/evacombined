@@ -87,10 +87,6 @@ export default function Eva() {
 						element={<MedicalAppointment />}
 					/>
 					<Route path="/patients/:patientId" element={<Patient />} />
-					<Route
-						path="/patients/:patientId/appointments"
-						element={<Appointments />}
-					/>
 					<Route path="/requests/:requestId" element={<Requests />} />
 				</Routes>
 			</Box>

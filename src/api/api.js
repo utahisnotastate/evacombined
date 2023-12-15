@@ -34,14 +34,14 @@ export const getAppointments = async () => {
 	return result.data
 }
 
-export const getAppointment = async (id) => {
-	const result = await axios(`${API_URL}/appointments/${id}/`)
+export const getAppointment = async (appointment) => {
+	const result = await axios(`${API_URL}/appointments/${appointment.id}/`)
 	return result.data
 }
 
-export const scheduleAppointment = async (id, appointment) => {
+export const scheduleAppointment = async (appointment) => {
 	const result = await axios
-		.post(`${API_URL}/appointments/${id}/`, appointment)
+		.post(`${API_URL}/appointments/${appointment.id}/`, appointment)
 		.then((response) => {
 			console.log(response)
 			return response.data
@@ -49,20 +49,68 @@ export const scheduleAppointment = async (id, appointment) => {
 	return result
 }
 
-/*export const saveAppointment = async (id, appointment) => {
+/*export const saveAppointment = async (appointment) => {
+	console.log(appointment)
 	const result = await axios
-		.patch(`${API_URL}/appointments/${id}/`, appointment)
+		.patch(`${API_URL}/appointments/${appointment.id}/`, { appointment })
 		.then((response) => {
 			console.log(response)
 		})
 	return result.data
 }*/
+export const exampletranscript = `Dr. Thompson: Good morning, Alex. How have you been feeling since our last appointment?
 
-export const saveAppointment = async (id, appointment) => {
+Alex: Good morning, Dr. Thompson. I've been doing okay, but I've noticed some fluctuations in my blood sugar levels more frequently.
+
+Dr. Thompson: I see. Have you been tracking your levels regularly?
+
+Alex: Yes, I check my levels four times a day and use an insulin pump.
+
+Dr. Thompson: Great. Can you tell me more about the fluctuations? When do they usually occur?
+
+Alex: Mostly after meals, but sometimes they happen overnight.
+
+Dr. Thompson: Alright. Have there been any changes in your diet or daily routine that might be affecting this?
+
+Alex: Not that I can think of. I've been sticking to the diet plan we discussed.
+
+Dr. Thompson: Okay. Let's review your insulin regimen. How often are you changing your infusion sites?
+
+Alex: Every three days, as recommended.
+
+Dr. Thompson: Good. And have you experienced any issues with the pump itself?
+
+Alex: No, it seems to be working fine.
+
+Dr. Thompson: Alright. I think we should do some blood work today to check your A1C levels and see if there's a need to adjust your insulin therapy. We'll also review your diet and exercise routine to ensure everything is aligned with your treatment plan.
+
+Alex: Sounds good. I've been trying to stay active, but it's been challenging with my work schedule.
+
+Dr. Thompson: It's important to find a balance. Even a small amount of regular exercise can make a significant difference in managing diabetes. We can discuss some strategies to incorporate more activity into your day.
+
+Alex: That would be helpful.
+
+Dr. Thompson: Great. Now, have you experienced any other symptoms? Any issues with vision, sensation in your feet, or anything else?
+
+Alex: No, nothing like that.
+
+Dr. Thompson: Excellent. It's crucial to keep an eye on these things. Remember, managing diabetes is not just about controlling blood sugar but also about preventing complications.
+
+Alex: Understood. I'll make sure to pay attention to any changes.
+
+Dr. Thompson: Perfect. After the blood work, we'll schedule a follow-up appointment to discuss the results and any adjustments to your treatment plan. Do you have any other concerns or questions today?
+
+Alex: No, that covers everything. Thank you, Dr. Thompson.
+
+Dr. Thompson: You're welcome, Alex. I'm here to support you in managing your diabetes. We'll see you after the test results are in. Take care.
+
+Alex: Thank you. See you soon.`
+export const saveAppointment = async (appointment) => {
+	console.log(appointment)
 	try {
 		const response = await axios.patch(
-			`${API_URL}/appointments/${id}/`,
-			appointment
+			`${API_URL}/appointments/${appointment.id}/`,
+			{ appointment }
 		)
 		console.log(response)
 		return response.data

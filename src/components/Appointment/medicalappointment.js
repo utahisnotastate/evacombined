@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { Formik, Form, Field } from 'formik'
 import AppointmentForm from './appointmentform'
 import {
 	Card,
@@ -7,18 +8,30 @@ import {
 	CardActions,
 	Button,
 } from '@mui/material'
+import { exampletranscript } from '../../api/api'
+import { TextField } from 'formik-mui'
 
 export default function MedicalAppointment({ appointment }) {
 	return (
-		<Card>
-			<CardContent>
-				<AppointmentForm appointment={appointment} />
-			</CardContent>
-			<CardActionArea>
-				<CardActions>
-					<Button variant={`contained`}>Create Appointment</Button>
-				</CardActions>
-			</CardActionArea>
-		</Card>
+		<Formik
+			initialValues={{
+				appointment: '',
+				note: '',
+			}}>
+			<Form>
+				<Card>
+					<CardContent>
+						<Field component={TextField} name={`note`} />
+					</CardContent>
+					<CardActionArea>
+						<CardActions>
+							<Button variant={`contained`}>
+								Create Appointment
+							</Button>
+						</CardActions>
+					</CardActionArea>
+				</Card>
+			</Form>
+		</Formik>
 	)
 }

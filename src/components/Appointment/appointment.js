@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import SaveIcon from '@mui/icons-material/Save'
 import annyang from 'annyang'
-import {
-	Button,
-	Container,
-	Typography,
-	Paper,
-	Box,
-	TextField,
-} from '@mui/material'
+import { Container, Box, TextField } from '@mui/material'
+import { exampletranscript } from '../../api/api'
 
 const Appointment = () => {
 	const [isListening, setIsListening] = useState(false)
-	const [transcript, setTranscript] = useState('')
+	const [transcript, setTranscript] = useState(exampletranscript)
 	const [gpt3Response, setGpt3Response] = useState('')
 
 	useEffect(() => {
@@ -24,6 +18,8 @@ const Appointment = () => {
 					)
 				},
 			}
+
+			//medical appointment form component
 
 			annyang.addCommands(commands)
 
@@ -103,48 +99,7 @@ const Appointment = () => {
 					/>
 				</div>
 			</div>
-			<div>
-				<div
-					style={{ display: 'flex', justifyContent: 'space-around' }}>
-					<Typography>Record Appointment</Typography>
-					<Typography>Cleaned Transcript</Typography>
-					<Typography>Additional Transcriptions</Typography>
-					<Typography>AI Generated Forms</Typography>
-					<Typography>Generated Medical Office Note</Typography>
-				</div>
-			</div>
-
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<Box
-					sx={{
-						display: 'flex',
-						marginBottom: 2,
-					}}>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={() => setIsListening(true)}
-						sx={{ marginRight: 1 }}>
-						Record
-					</Button>
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => setIsListening(false)}>
-						Generate Note
-					</Button>
-				</Box>
-				<Box>
-					<TextField
-						fullWidth
-						multiline
-						rows={4}
-						variant="outlined"
-						placeholder={`Transcript from recorded audio`}
-						value={transcript}
-						onChange={(e) => setTranscript(e.target.value)}
-					/>
-				</Box>
 				<Box>
 					<TextField
 						fullWidth
@@ -164,6 +119,38 @@ const Appointment = () => {
 export default Appointment
 
 /*
+<Box
+					sx={{
+						display: 'flex',
+						marginBottom: 2,
+					}}>
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => setIsListening(true)}
+						sx={{ marginRight: 1 }}>
+						Record
+					</Button>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => setIsListening(false)}>
+						Generate Note
+					</Button>
+				</Box>
+
+<Box>
+					<TextField
+						fullWidth
+						multiline
+						rows={4}
+						variant="outlined"
+						placeholder={`Transcript from recorded audio`}
+						value={transcript}
+						onChange={(e) => setTranscript(e.target.value)}
+					/>
+				</Box>
+
 * 	<Button variant={`contained`} onClick={handleSubmitToGPT3}>
 						Save
 					</Button>

@@ -11,41 +11,27 @@ function Appointments(state = [], action) {
 
 function patient(
 	state = {
-		id: 136,
-		fields: [
-			{
-				name: 'additional_info_1',
-				value: 'Some additional information',
-			},
-			{
-				name: 'additional_info_2',
-				value: 'Some more additional information',
-			},
-		],
+		id: '',
+		fields: [],
 		details: {
-			allergies: ['Penicillin', 'Peanuts'],
-			insurance: [
-				{
-					provider: 'HealthInsuranceCo',
-					policy_number: 'ABC1234567',
-				},
-			],
-			medications: ['Aspirin', 'Tylenol'],
+			allergies: [],
+			insurance: [],
+			medications: [],
 			demographics: {
-				city: 'Springfield',
-				email: 'john.doe@example.com',
-				phone: '123-456-7890',
-				state: 'IL',
-				address: '123 Main St.',
-				zip_code: '12345',
-				last_name: 'Doe',
-				first_name: 'John',
-				date_of_birth: '1980-01-01',
+				city: '',
+				email: '',
+				phone: '',
+				state: '',
+				address: '',
+				zip_code: '',
+				last_name: '',
+				first_name: '',
+				date_of_birth: '',
 			},
-			medical_history: ['Asthma', 'High blood pressure'],
-			surgical_history: ['Appendectomy', 'Tonsillectomy'],
+			medical_history: [],
+			surgical_history: [],
 		},
-		ssn: 123456789,
+		ssn: '',
 	},
 	action
 ) {

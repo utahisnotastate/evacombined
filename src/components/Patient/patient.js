@@ -44,25 +44,10 @@ const Patient = () => {
 		console.log(values)
 	}
 	//useEffect that when the component loads, it fetches the patient data from the API using the :patientID. Additionally, it should set the initial values of the form to the data returned from the API. The state.patient from the redux store should be used to populate the form.
-	useEffect(() => {
-		getPatient(patientId)
-			.then((data) => {
-				console.log('just got patient details')
-				console.log(data)
-				dispatch({ type: 'SET_PATIENT', patient: data.patient })
-				setAppointments(data.appointments)
-			})
-			.catch((error) => {
-				console.error('Error fetching data:', error)
-			})
-	}, [patientId])
+
 	return (
 		<Card>
 			<CardContent>
-				<NavLink to={`/appointment`}>
-					<Typography>New Appointment for: {patientId}</Typography>
-				</NavLink>
-
 				<Formik
 					initialValues={patient}
 					enableReinitialize={true}
@@ -86,7 +71,10 @@ const Patient = () => {
 							<InsuranceForm />
 						</CustomTabPanel>
 						<CustomTabPanel value={value} index={3}>
-							<Appointments appointments={appointments} />
+							<Appointments
+								appointments={appointments}
+								patientId={patientId}
+							/>
 						</CustomTabPanel>
 					</Form>
 				</Formik>
