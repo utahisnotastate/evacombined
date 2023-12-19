@@ -34,54 +34,18 @@ const Patient = () => {
 	const dispatch = useDispatch()
 	const { patientId } = useParams()
 	const patient = useSelector((state) => state.patient)
-	const [appointments, setAppointments] = useState([])
-	const [value, setValue] = useState(0)
+	const appointments = useSelector((state) => state.patientappointments)
 
-	const handleTabChange = (event, newTabValue) => {
-		setValue(newTabValue)
-	}
-	const handleSubmit = (values) => {
-		console.log(values)
-	}
 	//useEffect that when the component loads, it fetches the patient data from the API using the :patientID. Additionally, it should set the initial values of the form to the data returned from the API. The state.patient from the redux store should be used to populate the form.
 
 	return (
 		<Card>
 			<CardContent>
-				<Formik
-					initialValues={patient}
-					enableReinitialize={true}
-					onSubmit={handleSubmit}>
-					<Form>
-						<Box>
-							<Tabs value={value} onChange={handleTabChange}>
-								<Tab label="Demographics" />
-								<Tab label="Allergies" />
-								<Tab label="Insurance" />
-								<Tab label="Appointments" />
-							</Tabs>
-						</Box>
-						<CustomTabPanel value={value} index={0}>
-							<DemographicsForm />
-						</CustomTabPanel>
-						<CustomTabPanel value={value} index={1}>
-							<AllergiesForm />
-						</CustomTabPanel>
-						<CustomTabPanel value={value} index={2}>
-							<InsuranceForm />
-						</CustomTabPanel>
-						<CustomTabPanel value={value} index={3}>
-							<Appointments
-								appointments={appointments}
-								patientId={patientId}
-							/>
-						</CustomTabPanel>
-					</Form>
-				</Formik>
+				<Appointments
+					appointments={appointments}
+					patientId={patientId}
+				/>
 			</CardContent>
-			<CardActions>
-				<button type="submit">Submit</button>
-			</CardActions>
 		</Card>
 	)
 }

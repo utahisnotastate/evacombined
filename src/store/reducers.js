@@ -43,6 +43,16 @@ function patient(
 	}
 }
 
+function patientappointments(state = [], action) {
+	switch (action.type) {
+		case 'SET_PATIENT_APPOINTMENTS':
+			return action.appointments
+
+		default:
+			return state
+	}
+}
+
 function Patients(state = [], action) {
 	switch (action.type) {
 		case 'SET_PATIENTS':
@@ -75,6 +85,7 @@ const rootReducer = combineReducers({
 	Providers,
 	Patients,
 	patient,
+	patientappointments,
 	Requests,
 })
 

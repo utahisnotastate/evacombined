@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { getPatientAppointments } from '../../api/api'
 import { useSelector, useDispatch } from 'react-redux'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
@@ -15,10 +16,17 @@ export default function PatientSearch() {
 			option.details.demographics
 		return `${first_name} ${last_name} - DOB: ${date_of_birth}`
 	}
-	const onPatientSelect = (event, option) => {
+	const onPatientSelect = async (event, option) => {
 		if (option) {
 			dispatch({ type: 'SET_PATIENT', patient: option })
-			navigate(`/patients/${option.id}/`)
+			getPatientAppointments(option.id).then((response) => {
+				console.log(response)
+				dispatch({
+					type: 'SET_PATIENT_APPOINTMENTS',
+					appointments: response,
+				})
+				navigate(`/patients/${option.id}/`)
+			})
 		}
 	}
 
