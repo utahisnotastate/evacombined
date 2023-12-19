@@ -34,8 +34,8 @@ export const getAppointments = async () => {
 	return result.data
 }
 
-export const getAppointment = async (appointment) => {
-	const result = await axios(`${API_URL}/appointments/${appointment.id}/`)
+export const getAppointment = async (appointmentId) => {
+	const result = await axios(`${API_URL}/appointments/${appointmentId}/`)
 	return result.data
 }
 
