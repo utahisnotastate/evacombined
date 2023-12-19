@@ -1,7 +1,11 @@
 import * as React from 'react'
 import MUIDataTable from 'mui-datatables'
+import { Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 export default function Appointments({ appointments, patientId }) {
+	const navigate = useNavigate()
 	const columns = [
 		{
 			name: 'type',
@@ -9,33 +13,40 @@ export default function Appointments({ appointments, patientId }) {
 		},
 		{
 			name: 'start',
-			label: 'Start',
+			label: 'Start time',
 			options: {
-				filter: true,
-				sort: false,
+				customBodyRenderLite: (dataIndex) => {
+					return moment(appointments[dataIndex].start).format(
+						'MM-DD-YYYY HH:mm'
+					)
+				},
 			},
 		},
 		{
 			name: 'end',
-			label: 'End',
+			label: 'End time',
 			options: {
-				filter: true,
-				sort: false,
-			},
-		},
-		{
-			name: 'view',
-			label: 'State',
-			options: {
-				filter: true,
-				sort: false,
+				customBodyRenderLite: (dataIndex) => {
+					return moment(appointments[dataIndex].end).format(
+						'MM-DD-YYYY HH:mm'
+					)
+				},
 			},
 		},
 	]
-
+	const options = {
+		selectableRows: 'none',
+		onRowClick: (rowData, rowMeta) => {
+			navigate(`/appointments/${appointments[rowMeta.dataIndex].id}`)
+		},
+	}
 	return (
 		<>
-			<MUIDataTable data={appointments} columns={columns} />
+			<MUIDataTable
+				data={appointments}
+				columns={columns}
+				options={options}
+			/>
 		</>
 	)
 }
