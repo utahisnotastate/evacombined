@@ -47,7 +47,7 @@ export default function AppointmentForm({ appointment }) {
 		<Formik
 			initialValues={appointment}
 			onSubmit={(values, { setSubmitting }) => {
-				setSubmitting(true)
+				true
 				saveAppointment(values)
 					.then((response) => {
 						console.log(response)
@@ -82,48 +82,3 @@ export default function AppointmentForm({ appointment }) {
 		</Formik>
 	)
 }
-/*
-<Box margin={1}>
-						<Button
-							sx={{ margin: 1 }}
-							variant="contained"
-							color="primary"
-							disabled={isSubmitting}
-							onClick={submitForm}>
-							Save
-						</Button>
-					</Box>
-
-<Box margin={1}>
-						<Field
-							multiline
-							fullWidth
-							minRows={5}
-							component={TextField}
-							type="textarea"
-							label="Office Note"
-							InputProps={{ notched: true }}
-							name="note"
-						/>
-					</Box>
-
-<Box margin={1}>
-						<RecordVoiceOverIcon
-							fontSize="large"
-							onClick={() => setIsListening(true)}
-						/>
-						<StopIcon
-							fontSize="large"
-							onClick={() => setIsListening(false)}
-						/>
-						<Typography>
-							Status:{' '}
-							{isListening
-								? 'Recording in process'
-								: 'Press record'}
-						</Typography>
-
-					</Box>
-* 	<pre>{JSON.stringify(values, null, 2)}</pre>
-*
-* */

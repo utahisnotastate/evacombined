@@ -1,6 +1,5 @@
 import React from 'react'
 import { useField, useFormikContext } from 'formik'
-import { TextField } from 'formik-mui'
 import { gcpGenerateOfficeNoteFromTranscript } from '../../api/ai.gcp'
 
 async function convertTranscriptToOfficeNote(transcript) {
@@ -37,3 +36,9 @@ export default function AsyncAPITextField(props) {
 		</>
 	)
 }
+
+
+/*
+* 	<textarea rows={10} cols={50} {...props} {...field} />
+			{!!meta.touched && !!meta.error && <div>{meta.error}</div>}
+* */

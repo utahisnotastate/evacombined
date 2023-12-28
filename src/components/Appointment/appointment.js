@@ -115,43 +115,4 @@ const Appointment = () => {
 		</Container>
 	)
 }
-
 export default Appointment
-
-/*
-<Box
-					sx={{
-						display: 'flex',
-						marginBottom: 2,
-					}}>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={() => setIsListening(true)}
-						sx={{ marginRight: 1 }}>
-						Record
-					</Button>
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={() => setIsListening(false)}>
-						Generate Note
-					</Button>
-				</Box>
-
-<Box>
-					<TextField
-						fullWidth
-						multiline
-						rows={4}
-						variant="outlined"
-						placeholder={`Transcript from recorded audio`}
-						value={transcript}
-						onChange={(e) => setTranscript(e.target.value)}
-					/>
-				</Box>
-
-* 	<Button variant={`contained`} onClick={handleSubmitToGPT3}>
-						Save
-					</Button>
-* */

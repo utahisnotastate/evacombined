@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Formik, Form, Field } from 'formik'
-import AppointmentForm from './appointmentform'
-import {
-	Backdrop,
-	CircularProgress,
-	Card,
-	CardContent,
-	CardActionArea,
-	CardActions,
-	Button,
-} from '@mui/material'
-import AsyncAPITextField from './asyncapitextfield'
 import { getAppointment } from '../../api/api'
+import { Formik, Form, Field } from 'formik'
+import AsyncAPITextField from './asyncapitextfield'
 import { gcpGenerateOfficeNoteFromTranscript } from '../../api/ai.gcp'
 import { TextField } from 'formik-mui'
 import { useParams } from 'react-router-dom'
 
 export default function MedicalAppointment() {
-	const initialValues = {
-		transcript: 'This is the transcript',
-		note: 'This is the note',
-		textC: '',
-	}
 	const { appointmentId } = useParams()
 	const [open, setOpen] = useState(false)
-	const [appointment, setAppointment] = useState({})
+	const [appointment, setAppointment] = useState({
+		type: 'regular',
+		status: 'scheduled',
+		start: '',
+		end: '',
+		transcript: '',
+		note: '',
+		textC: '',
+	})
 
 	const handleClose = () => {
 		setOpen(false)
@@ -37,8 +30,8 @@ export default function MedicalAppointment() {
 		})
 	}
 
-	const handleSubmit = (values) => {
-		console.log(values)
+	const handleSubmit = async (values) => {
+		handleOpen(true)
 	}
 
 	//when the component mounts, get the appointments details from the api using the getAppointment function, also run the getAppointment function with the appointment id paramater changes
@@ -48,9 +41,10 @@ export default function MedicalAppointment() {
 			setAppointment(response)
 		})
 	}, [appointmentId])
+
 	return (
 		<Formik
-			initialValues={initialValues}
+			initialValues={appointment}
 			onSubmit={handleSubmit}
 			enableReinitialize={true}>
 			<Form>
@@ -62,7 +56,7 @@ export default function MedicalAppointment() {
 					minRows={8}
 					label="Transcript"
 				/>
-				<AsyncAPITextField name={`note`} type={`textarea`} />
+				<AsyncAPITextField name={`note`} />
 			</Form>
 		</Formik>
 	)

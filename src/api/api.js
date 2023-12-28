@@ -1,5 +1,9 @@
 import API_URL from './API_URL'
 import axios from 'axios'
+import moment from 'moment'
+
+const start = moment()
+const end = moment()
 
 export const getPatients = async () => {
 	const result = await axios(`${API_URL}/patients/`)
@@ -39,14 +43,31 @@ export const getAppointment = async (appointmentId) => {
 	return result.data
 }
 
-export const scheduleAppointment = async (appointment) => {
-	const result = await axios
-		.post(`${API_URL}/appointments/${appointment.id}/`, appointment)
+export const scheduleAppointment = async () => {
+	const formattedStart = start.utc().format()
+	const formattedEnd = end.utc().format()
+	return await axios
+		.post(`${API_URL}/appointments/`, {
+			type: 'first_appointment',
+			status: 'scheduled',
+			start: formattedStart,
+			end: formattedEnd,
+			fields: [],
+			transcript: '',
+			note: '',
+			complaints: [],
+			review_of_systems: [],
+			assessments: [],
+			plans: [],
+			physical_exam: [],
+			summary: '',
+			patient: 136,
+			provider: 1,
+		})
 		.then((response) => {
 			console.log(response)
 			return response.data
 		})
-	return result
 }
 
 /*export const saveAppointment = async (appointment) => {
