@@ -76,9 +76,7 @@ Mr. Peterson: I definitely need to be better about pacing myself. I sometimes pu
 
 Dr. Carter: That's understandable. But remember, your health is the priority. Pushing yourself through exhaustion can worsen your symptoms and hinder your progress.`
 
-export async function gcpGenerateOfficeNoteFromTranscript(
-	transcript = exampletranscript
-) {
+export async function gcpGenerateOfficeNoteFromTranscript(transcript) {
 	const genAI = new GoogleGenerativeAI(API_KEY)
 	const model = genAI.getGenerativeModel({ model: MODEL_NAME })
 

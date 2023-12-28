@@ -5,6 +5,7 @@ import AsyncAPITextField from './asyncapitextfield'
 import { gcpGenerateOfficeNoteFromTranscript } from '../../api/ai.gcp'
 import { TextField } from 'formik-mui'
 import { useParams } from 'react-router-dom'
+import Paper from '@mui/material/Paper'
 
 export default function MedicalAppointment() {
 	const { appointmentId } = useParams()
@@ -43,21 +44,31 @@ export default function MedicalAppointment() {
 	}, [appointmentId])
 
 	return (
-		<Formik
-			initialValues={appointment}
-			onSubmit={handleSubmit}
-			enableReinitialize={true}>
-			<Form>
-				<Field
-					component={TextField}
-					name="transcript"
-					multiline
-					fullWidth
-					minRows={8}
-					label="Transcript"
-				/>
-				<AsyncAPITextField name={`note`} />
-			</Form>
-		</Formik>
+		<Paper>
+			<Formik
+				initialValues={appointment}
+				onSubmit={handleSubmit}
+				enableReinitialize={true}>
+				<Form>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							flex: 1,
+						}}>
+						<Field
+							component={TextField}
+							name="transcript"
+							multiline
+							fullWidth
+							minRows={8}
+							label="Transcript"
+						/>
+						<AsyncAPITextField name={`note`} fullWidth />
+					</div>
+				</Form>
+			</Formik>
+		</Paper>
 	)
 }
