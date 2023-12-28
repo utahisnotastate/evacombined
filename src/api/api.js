@@ -129,9 +129,9 @@ Alex: Thank you. See you soon.`
 export const saveAppointment = async (appointment) => {
 	console.log(appointment)
 	try {
-		const response = await axios.patch(
+		const response = await axios.put(
 			`${API_URL}/appointments/${appointment.id}/`,
-			{ appointment }
+			appointment
 		)
 		console.log(response)
 		return response.data

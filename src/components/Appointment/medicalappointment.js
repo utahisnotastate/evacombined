@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { getAppointment } from '../../api/api'
+import { getAppointment, saveAppointment } from '../../api/api'
 import { Formik, Form, Field } from 'formik'
 import AsyncAPITextField from './asyncapitextfield'
 import { gcpGenerateOfficeNoteFromTranscript } from '../../api/ai.gcp'
 import { TextField } from 'formik-mui'
 import { useParams } from 'react-router-dom'
 import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
+import axios from 'axios'
 
 export default function MedicalAppointment() {
 	const { appointmentId } = useParams()
@@ -32,7 +34,10 @@ export default function MedicalAppointment() {
 	}
 
 	const handleSubmit = async (values) => {
-		handleOpen(true)
+		saveAppointment(values).then((updatedAppointment) => {
+			console.log(updatedAppointment)
+			setAppointment(updatedAppointment)
+		})
 	}
 
 	//when the component mounts, get the appointments details from the api using the getAppointment function, also run the getAppointment function with the appointment id paramater changes
@@ -47,7 +52,7 @@ export default function MedicalAppointment() {
 		<Paper>
 			<Formik
 				initialValues={appointment}
-				onSubmit={handleSubmit}
+				onSubmit={(values) => handleSubmit(values)}
 				enableReinitialize={true}>
 				<Form>
 					<div
@@ -67,6 +72,7 @@ export default function MedicalAppointment() {
 						/>
 						<AsyncAPITextField name={`note`} fullWidth />
 					</div>
+					<input type={`submit`} />
 				</Form>
 			</Formik>
 		</Paper>
