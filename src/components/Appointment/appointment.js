@@ -3,10 +3,15 @@ import SaveIcon from '@mui/icons-material/Save'
 import annyang from 'annyang'
 import { Container, Box, TextField } from '@mui/material'
 import { exampletranscript } from '../../api/api'
+import { Formik, Form, Field } from 'formik'
+import { TextField } from 'formik-mui'
+import Button from '@mui/material/Button'
 
 const Appointment = () => {
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState(exampletranscript)
+	const [officeNote, setOfficeNote] = useState('')
+	const [claim, setClaim] = useState()
 	const [gpt3Response, setGpt3Response] = useState('')
 
 	useEffect(() => {
@@ -90,28 +95,86 @@ const Appointment = () => {
 
 	return (
 		<Container>
-			<div>
-				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<SaveIcon
-						onClick={() => {
-							console.log('clicked to save')
-						}}
-					/>
-				</div>
-			</div>
-			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<Box>
-					<TextField
-						fullWidth
-						multiline
-						rows={4}
-						placeholder={`Finalized Medical Office Note`}
-						variant="outlined"
-						value={gpt3Response}
-						onChange={(e) => setGpt3Response(e.target.value)}
-					/>
-				</Box>
-			</div>
+			<Formik
+				initialValues={{
+					transcripts: '',
+					office_note: '',
+					claim: '',
+					gpt3Response: '',
+				}}
+				onSubmit={(values, actions) => {
+					setIsListening(false)
+					handleSubmitToGPT3(values, actions)
+				}}>
+				{({ errors, touched, isSubmitting }) => (
+					<Form>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-end',
+							}}>
+							<SaveIcon
+								onClick={() => {
+									console.log('clicked to save')
+								}}
+							/>
+						</div>
+						<Box>
+							<Field name="gpt3Response">
+								{({ field }) => (
+									<TextField
+										{...field}
+										fullWidth
+										multiline
+										rows={4}
+										placeholder={`Finalized Medical Office Note`}
+										variant="outlined"
+										error={
+											errors.gpt3Response &&
+											touched.gpt3Response
+										}
+										helperText={
+											errors.gpt3Response &&
+											touched.gpt3Response
+												? errors.gpt3Response
+												: ''
+										}
+									/>
+								)}
+							</Field>
+						</Box>
+						<Box>
+							<Field
+								component={TextField}
+								label="Medical Office Note"
+								name="office_note"
+								variant="outlined"
+								InputProps={{ notched: true }}
+							/>
+							;
+						</Box>
+						<Box>
+							<Field
+								component={TextField}
+								label="Claim"
+								name="claim"
+								variant="outlined"
+								InputProps={{ notched: true }}
+							/>
+							;
+						</Box>
+						<Box mt={2}>
+							<Button
+								type="submit"
+								variant="contained"
+								color="primary"
+								disabled={isSubmitting}>
+								Generate Office Note
+							</Button>
+						</Box>
+					</Form>
+				)}
+			</Formik>
 		</Container>
 	)
 }

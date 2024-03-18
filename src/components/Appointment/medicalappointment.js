@@ -70,7 +70,23 @@ export default function MedicalAppointment() {
 							minRows={8}
 							label="Transcript"
 						/>
+						<Field
+							component={TextField}
+							name="cleaneduptranscript"
+							multiline
+							fullWidth
+							minRows={8}
+							label="Cleaned Up Transcript"
+						/>
 						<AsyncAPITextField name={`note`} fullWidth />
+						<Field
+							component={TextField}
+							name="claim"
+							multiline
+							fullWidth
+							minRows={8}
+							label="Claim"
+						/>
 					</div>
 					<input type={`submit`} />
 				</Form>
