@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { TextField, Paper, Button } from '@mui/material'
 import { getAppointment, saveAppointment } from '../../api/api'
+import {
+	cleanRoughAudioTranscriptText,
+	convertCleanedTranscriptIntoOfficeNote,
+	generateClaimFromOfficeNote,
+} from '../../api/ai.api'
 
 export default function MedicalAppointment() {
 	const { appointmentId } = useParams()
@@ -28,6 +33,25 @@ export default function MedicalAppointment() {
 		summary: '',
 		claim: '',
 	})
+
+	const handleCleanTranscript = async () => {
+		//setIsLoading(true); // Assuming you have a loading state
+		console.log(appointment.transcript)
+		try {
+			const cleanedTranscript = await cleanRoughAudioTranscriptText(
+				appointment.transcript
+			)
+			setAppointment((prevState) => ({
+				...prevState,
+				cleaneduptranscript: cleanedTranscript,
+			}))
+		} catch (error) {
+			console.error('Error cleaning transcript:', error)
+			// Handle error appropriately in your UI
+		} finally {
+			//setIsLoading(false);
+		}
+	}
 
 	useEffect(() => {
 		getAppointment(appointmentId).then(setAppointment)
@@ -131,31 +155,49 @@ export default function MedicalAppointment() {
 					<Button
 						variant="contained"
 						color="secondary"
-						onClick={() => console.log('Clean up transcript')}>
-						Generate Transcript
+						onClick={handleCleanTranscript}>
+						Clean Up Transcript
 					</Button>
 				</div>
 
-				<TextField
-					label="Office Note"
-					name="note"
-					multiline
-					fullWidth
-					minRows={8}
-					value={appointment.note}
-					onChange={handleChange}
-					margin="normal"
-				/>
-				<TextField
-					label="Claim"
-					name="claim"
-					multiline
-					fullWidth
-					minRows={8}
-					value={appointment.claim}
-					onChange={handleChange}
-					margin="normal"
-				/>
+				<div>
+					<TextField
+						label="Office Note"
+						name="note"
+						multiline
+						fullWidth
+						minRows={8}
+						value={appointment.note}
+						onChange={handleChange}
+						margin="normal"
+					/>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => console.log('Generate Note')}>
+						Generate Office Note
+					</Button>
+				</div>
+
+				<div>
+					<TextField
+						label="Claim"
+						name="claim"
+						multiline
+						fullWidth
+						minRows={8}
+						value={appointment.claim}
+						onChange={handleChange}
+						margin="normal"
+					/>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => console.log('Generate Claim')}>
+						Generate Claim
+					</Button>
+				</div>
+
 				<Button
 					type="submit"
 					variant="contained"

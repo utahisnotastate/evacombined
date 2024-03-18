@@ -1,4 +1,4 @@
-const cleanRoughAudioTranscriptText = async (text) => {
+export const cleanRoughAudioTranscriptText = async (text) => {
 	const OPENAI_ENDPOINT = 'https://api.openai.com/v1/chat/completions'
 
 	const requestBody = {
@@ -28,7 +28,7 @@ const cleanRoughAudioTranscriptText = async (text) => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
+				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
 			},
 			body: JSON.stringify(requestBody),
 		})
@@ -46,7 +46,7 @@ const cleanRoughAudioTranscriptText = async (text) => {
 	}
 }
 
-const convertCleanedTranscriptIntoOfficeNote = async (text) => {
+export const convertCleanedTranscriptIntoOfficeNote = async (text) => {
 	const OPENAI_ENDPOINT = 'https://api.openai.com/v1/chat/completions'
 
 	const requestBody = {
@@ -74,7 +74,7 @@ const convertCleanedTranscriptIntoOfficeNote = async (text) => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
+				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
 			},
 			body: JSON.stringify(requestBody),
 		})
@@ -92,7 +92,7 @@ const convertCleanedTranscriptIntoOfficeNote = async (text) => {
 	}
 }
 
-const generateClaimFromOfficeNote = async (text) => {
+export const generateClaimFromOfficeNote = async (text) => {
 	const OPENAI_ENDPOINT = 'https://api.openai.com/v1/chat/completions'
 
 	const requestBody = {
@@ -120,7 +120,7 @@ const generateClaimFromOfficeNote = async (text) => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
+				Authorization: `Bearer ${process.env.REACT_APP_OPENAI_KEY}`, // Make sure to replace 'YOUR_OPENAI_API_KEY' with your actual API key
 			},
 			body: JSON.stringify(requestBody),
 		})
