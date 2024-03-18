@@ -9,6 +9,7 @@ export default function MedicalAppointment() {
 	const [speechRecognition, setSpeechRecognition] = useState(null) // Store the speech recognition instance
 
 	const [appointment, setAppointment] = useState({
+		id: appointmentId,
 		patient: '',
 		provider: '',
 		type: 'regular',
@@ -116,16 +117,25 @@ export default function MedicalAppointment() {
 						Stop
 					</Button>
 				</div>
-				<TextField
-					label="Cleaned Up Transcript"
-					name="cleaneduptranscript"
-					multiline
-					fullWidth
-					minRows={8}
-					value={appointment.cleaneduptranscript}
-					onChange={handleChange}
-					margin="normal"
-				/>
+				<div>
+					<TextField
+						label="Cleaned Up Transcript"
+						name="cleaneduptranscript"
+						multiline
+						fullWidth
+						minRows={8}
+						value={appointment.cleaneduptranscript}
+						onChange={handleChange}
+						margin="normal"
+					/>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => console.log('Clean up transcript')}>
+						Generate Transcript
+					</Button>
+				</div>
+
 				<TextField
 					label="Office Note"
 					name="note"
