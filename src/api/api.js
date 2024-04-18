@@ -61,7 +61,7 @@ export const scheduleAppointment = async () => {
 			plans: [],
 			physical_exam: [],
 			summary: '',
-			patient: 136,
+			patient: '',
 			provider: 1,
 		})
 		.then((response) => {

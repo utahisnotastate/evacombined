@@ -101,7 +101,7 @@ export const generateClaimFromOfficeNote = async (text) => {
 			{
 				role: 'system',
 				content:
-					'Pretend you are a medical billing/claism representative for the doctors office. Please generate a claim from the provided medical appointment office note.  ',
+					'Pretend you are a medical billing/claims representative for the doctors office. Please generate a claim from the provided medical appointment office note.  ',
 			},
 			{
 				role: 'user',

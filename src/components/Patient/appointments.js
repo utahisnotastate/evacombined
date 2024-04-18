@@ -39,6 +39,13 @@ export default function Appointments({ appointments, patientId }) {
 		onRowClick: (rowData, rowMeta) => {
 			navigate(`/appointments/${appointments[rowMeta.dataIndex].id}`)
 		},
+		customToolbar: ({ displayData }) => {
+			return (
+				<>
+					<Button variant={`contained`}>Start New Appointment</Button>
+				</>
+			)
+		},
 	}
 	return (
 		<>
