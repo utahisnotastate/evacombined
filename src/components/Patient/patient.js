@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams, NavLink } from 'react-router-dom'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import { createNewAppointment } from '../../api/api'
 import Appointments from './appointments'
 
 const Patient = () => {

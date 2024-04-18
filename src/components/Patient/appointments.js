@@ -1,11 +1,24 @@
 import * as React from 'react'
 import MUIDataTable from 'mui-datatables'
 import { Button } from '@mui/material'
+import { createNewAppointment } from '../../api/api'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 
 export default function Appointments({ appointments, patientId }) {
 	const navigate = useNavigate()
+
+	const handleCreateAppointment = async () => {
+		try {
+			// Assuming the createNewAppointment function requires patientId and returns the new appointment ID
+			const newAppointment = await createNewAppointment(patientId)
+			navigate(`/appointments/${newAppointment.id}`)
+		} catch (error) {
+			console.error('Error creating new appointment:', error)
+			// Optionally add error handling UI feedback here
+		}
+	}
+
 	const columns = [
 		{
 			name: 'type',
@@ -39,11 +52,14 @@ export default function Appointments({ appointments, patientId }) {
 		onRowClick: (rowData, rowMeta) => {
 			navigate(`/appointments/${appointments[rowMeta.dataIndex].id}`)
 		},
-		customToolbar: ({ displayData }) => {
+		customToolbar: () => {
 			return (
-				<>
-					<Button variant={`contained`}>Start New Appointment</Button>
-				</>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={handleCreateAppointment}>
+					Start New Appointment
+				</Button>
 			)
 		},
 	}

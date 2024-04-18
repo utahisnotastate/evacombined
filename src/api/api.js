@@ -43,6 +43,19 @@ export const getAppointment = async (appointmentId) => {
 	return result.data
 }
 
+export const createNewAppointment = async (patientId) => {
+	try {
+		const response = await axios.post(
+			`${API_URL}/appointments/create_appointment/`,
+			{ patientId }
+		)
+		return response.data
+	} catch (error) {
+		console.error('Error creating new appointment:', error)
+		throw error
+	}
+}
+
 export const scheduleAppointment = async () => {
 	const formattedStart = start.utc().format()
 	const formattedEnd = end.utc().format()
