@@ -15,22 +15,13 @@ export default function MedicalAppointment() {
 
 	const [appointment, setAppointment] = useState({
 		id: appointmentId,
-		patient: '',
-		provider: '',
 		type: 'regular',
 		status: 'scheduled',
 		start: '',
 		end: '',
-		fields: [],
 		transcript: '',
 		cleaneduptranscript: '',
-		complaints: [],
-		review_of_systems: [],
-		assessments: [],
-		plans: [],
-		physical_exam: [],
 		note: '',
-		summary: '',
 		claim: '',
 	})
 
@@ -109,8 +100,14 @@ export default function MedicalAppointment() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		const updatedAppointment = await saveAppointment(appointment)
-		console.log(updatedAppointment)
+		try {
+			const updatedAppointment = await saveAppointment(appointment)
+			console.log('Updated appointment:', updatedAppointment)
+			alert('Appointment saved successfully!')
+		} catch (error) {
+			console.error('Save failed:', error)
+			alert('Failed to save appointment.')
+		}
 	}
 
 	return (

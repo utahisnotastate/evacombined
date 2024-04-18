@@ -45,14 +45,32 @@ export const getAppointment = async (appointmentId) => {
 
 export const createNewAppointment = async (patientId) => {
 	try {
-		const response = await axios.post(
-			`${API_URL}/appointments/create_appointment/`,
-			{ patientId }
-		)
+		// Assume default values are set as needed by the backend or here explicitly
+		const response = await axios.post(`${API_URL}/appointments/`, {
+			patient: patientId, // Correct key as per your JSON structure
+			provider: 1, // Default provider, ensure this is valid
+			type: 'regular',
+			status: 'scheduled',
+			start: new Date().toISOString(), // Set current time as start
+		})
 		return response.data
 	} catch (error) {
 		console.error('Error creating new appointment:', error)
 		throw error
+	}
+}
+
+export const saveAppointment = async (appointment) => {
+	try {
+		const response = await axios.put(
+			`${API_URL}/appointments/${appointment.id}/`,
+			appointment
+		)
+		console.log('Appointment saved:', response.data)
+		return response.data
+	} catch (error) {
+		console.error('There was an error saving the appointment:', error)
+		throw error // You might want to handle this more gracefully depending on your application structure
 	}
 }
 
@@ -139,7 +157,7 @@ Alex: No, that covers everything. Thank you, Dr. Thompson.
 Dr. Thompson: You're welcome, Alex. I'm here to support you in managing your diabetes. We'll see you after the test results are in. Take care.
 
 Alex: Thank you. See you soon.`
-export const saveAppointment = async (appointment) => {
+/*export const saveAppointment = async (appointment) => {
 	console.log(appointment)
 	try {
 		const response = await axios.put(
@@ -152,7 +170,7 @@ export const saveAppointment = async (appointment) => {
 		console.error('There was an error saving the appointment:', error)
 		// Handle the error according to your needs
 	}
-}
+}*/
 
 export const getProviders = async () => {
 	const result = await axios(`${API_URL}/providers/`)
