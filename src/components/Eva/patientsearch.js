@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { getPatientAppointments } from '../../api/api'
 import { useSelector, useDispatch } from 'react-redux'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
@@ -7,28 +6,34 @@ import { Box, Typography } from '@mui/material'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 export default function PatientSearch() {
-	const patients = useSelector((state) => state.Patients)
+	const patients = useSelector((state) => state.patients)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+
+	const handlePatientSelect = async (event, patient) => {
+		if (!patient) return
+		dispatch({ type: 'SET_PATIENT', patient })
+		navigate(`/patients/${patient.id}`)
+	}
 
 	const getOptionLabel = (option) => {
 		const { first_name, last_name, date_of_birth } =
 			option.details.demographics
 		return `${first_name} ${last_name} - DOB: ${date_of_birth}`
 	}
-	const onPatientSelect = async (event, option) => {
-		if (option) {
-			dispatch({ type: 'SET_PATIENT', patient: option })
-			getPatientAppointments(option.id).then((response) => {
-				console.log(response)
-				dispatch({
-					type: 'SET_PATIENT_APPOINTMENTS',
-					appointments: response,
-				})
-				navigate(`/patients/${option.id}/`)
-			})
-		}
-	}
+	/*const onPatientSelect = async (event, option) => {
+    if (option) {
+      dispatch({ type: 'SET_PATIENT', patient: option })
+      getPatientAppointments(option.id).then((response) => {
+        console.log(response)
+        dispatch({
+          type: 'SET_PATIENT_APPOINTMENTS',
+          appointments: response,
+        })
+        navigate(`/patients/${option.id}/`)
+      })
+    }
+  }*/
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -39,7 +44,6 @@ export default function PatientSearch() {
 				fullWidth={true}
 				options={patients}
 				getOptionLabel={getOptionLabel}
-				onChange={onPatientSelect}
 				renderOption={(props, option) => (
 					<NavLink to={`/patients/${option.id}/`} {...props}>
 						<Typography variant="body1">

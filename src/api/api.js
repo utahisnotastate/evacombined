@@ -12,15 +12,13 @@ export const getPatients = async () => {
 }
 
 export const getPatient = async (id) => {
-	const patient = await axios(`${API_URL}/patients/${id}/`)
-	const appointments = await axios(`${API_URL}/patients/${id}/appointments/`)
-	const result = { patient: patient.data, appointments: appointments.data }
-	return result
-}
-
-export const getPatientAppointments = async (id) => {
-	const result = await axios(`${API_URL}/patients/${id}/appointments/`)
-	return result.data
+	try {
+		const response = await axios.get(`${API_URL}/patients/${id}/`)
+		return response.data // Assuming response.data includes both patient details and appointments
+	} catch (error) {
+		console.error('Error fetching patient data:', error)
+		throw error // You might want to handle this more gracefully depending on your application structure
+	}
 }
 
 export const getRequests = async () => {
@@ -45,14 +43,18 @@ export const getAppointment = async (appointmentId) => {
 
 export const createNewAppointment = async (patientId) => {
 	try {
-		// Assume default values are set as needed by the backend or here explicitly
-		const response = await axios.post(`${API_URL}/appointments/`, {
-			patient: patientId, // Correct key as per your JSON structure
-			provider: 1, // Default provider, ensure this is valid
+		const newAppointment = {
+			patient: patientId,
+			provider: 1, // Assuming default provider ID is 1, adjust as necessary
 			type: 'regular',
 			status: 'scheduled',
-			start: new Date().toISOString(), // Set current time as start
-		})
+			start: new Date().toISOString(), // Set the current time as start
+			// Ensure all required fields are included or set defaults as necessary
+		}
+		const response = await axios.post(
+			`${API_URL}/appointments/`,
+			newAppointment
+		)
 		return response.data
 	} catch (error) {
 		console.error('Error creating new appointment:', error)

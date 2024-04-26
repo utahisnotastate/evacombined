@@ -1,71 +1,116 @@
 import * as React from 'react'
 import MUIDataTable from 'mui-datatables'
-import { Button } from '@mui/material'
-import { createNewAppointment } from '../../api/api'
-import { useNavigate } from 'react-router-dom'
+import { Button, CircularProgress, Tooltip, IconButton } from '@mui/material'
+import InfoIcon from '@mui/icons-material/Info'
+import { useNavigate, useParams } from 'react-router-dom'
 import moment from 'moment'
+import { useSelector, useDispatch } from 'react-redux'
+import { createNewAppointment, getPatient } from '../../api/api'
 
-export default function Appointments({ appointments, patientId }) {
+export default function Appointments({ patientId }) {
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const [loading, setLoading] = React.useState(false)
+	const appointments = useSelector((state) => state.patient.appointments)
 
-	const handleCreateAppointment = async () => {
-		try {
-			// Assuming the createNewAppointment function requires patientId and returns the new appointment ID
-			const newAppointment = await createNewAppointment(patientId)
-			navigate(`/appointments/${newAppointment.id}`)
-		} catch (error) {
-			console.error('Error creating new appointment:', error)
-			// Optionally add error handling UI feedback here
+	const handleCreateNewAppointment = async () => {
+		setLoading(true)
+		const result = await createNewAppointment(patientId)
+		if (result.success) {
+			const patientData = await getPatient(patientId)
+			dispatch({ type: 'SET_PATIENT', patient: patientData })
+			setLoading(false)
+			navigate(`/appointments/${result.data.id}`)
+		} else {
+			setLoading(false)
+			alert('Failed to create appointment. Please try again.')
 		}
 	}
 
 	const columns = [
-		{
-			name: 'type',
-			label: 'Type',
-		},
+		{ name: 'type', label: 'Type' },
 		{
 			name: 'start',
-			label: 'Start time',
+			label: 'Start Time',
 			options: {
-				customBodyRenderLite: (dataIndex) => {
-					return moment(appointments[dataIndex].start).format(
+				customBodyRenderLite: (dataIndex) =>
+					moment(appointments[dataIndex].start).format(
 						'MM-DD-YYYY HH:mm'
-					)
-				},
+					),
+				setCellProps: () => ({
+					style: { minWidth: '130px', color: '#4a148c' },
+				}),
 			},
 		},
 		{
 			name: 'end',
-			label: 'End time',
+			label: 'End Time',
 			options: {
+				customBodyRenderLite: (dataIndex) =>
+					appointments[dataIndex].end
+						? moment(appointments[dataIndex].end).format(
+								'MM-DD-YYYY HH:mm'
+						  )
+						: 'N/A',
+				setCellProps: () => ({
+					style: { minWidth: '130px', color: '#1a237e' },
+				}),
+			},
+		},
+		{
+			name: 'Info',
+			options: {
+				sort: false,
+				empty: true,
 				customBodyRenderLite: (dataIndex) => {
-					return moment(appointments[dataIndex].end).format(
-						'MM-DD-YYYY HH:mm'
+					return (
+						<Tooltip title="More Info" placement="top">
+							<IconButton
+								onClick={() =>
+									navigate(
+										`/appointments/${appointments[dataIndex].id}`
+									)
+								}>
+								<InfoIcon color="primary" />
+							</IconButton>
+						</Tooltip>
 					)
 				},
 			},
 		},
 	]
+
 	const options = {
 		selectableRows: 'none',
 		onRowClick: (rowData, rowMeta) => {
 			navigate(`/appointments/${appointments[rowMeta.dataIndex].id}`)
 		},
-		customToolbar: () => {
-			return (
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={handleCreateAppointment}>
-					Start New Appointment
-				</Button>
-			)
+		customToolbar: () => (
+			<Button
+				onClick={handleCreateNewAppointment}
+				variant="contained"
+				color="primary"
+				disabled={loading}>
+				{loading ? (
+					<CircularProgress size={24} />
+				) : (
+					'Create New Appointment'
+				)}
+			</Button>
+		),
+		rowHover: true,
+		setRowProps: (row, dataIndex, rowIndex) => {
+			const style = {}
+			if (appointments[dataIndex].status === 'scheduled') {
+				style.background = '#e8f5e9'
+			}
+			return { style }
 		},
 	}
 	return (
 		<>
 			<MUIDataTable
+				title={'Appointments'}
 				data={appointments}
 				columns={columns}
 				options={options}

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-function Appointments(state = [], action) {
+function appointments(state = [], action) {
 	switch (action.type) {
 		case 'SET_APPOINTMENTS':
 			return action.appointments
@@ -13,6 +13,7 @@ function patient(
 	state = {
 		id: '',
 		fields: [],
+		appointments: [],
 		details: {
 			allergies: [],
 			insurance: [],
@@ -43,17 +44,7 @@ function patient(
 	}
 }
 
-function patientappointments(state = [], action) {
-	switch (action.type) {
-		case 'SET_PATIENT_APPOINTMENTS':
-			return action.appointments
-
-		default:
-			return state
-	}
-}
-
-function Patients(state = [], action) {
+function patients(state = [], action) {
 	switch (action.type) {
 		case 'SET_PATIENTS':
 			return action.patients
@@ -62,7 +53,7 @@ function Patients(state = [], action) {
 	}
 }
 
-function Requests(state = [], action) {
+function requests(state = [], action) {
 	switch (action.type) {
 		case 'SET_REQUESTS':
 			return action.requests
@@ -71,7 +62,7 @@ function Requests(state = [], action) {
 	}
 }
 
-function Providers(state = [], action) {
+function providers(state = [], action) {
 	switch (action.type) {
 		case 'SET_PROVIDERS':
 			return action.providers
@@ -81,12 +72,11 @@ function Providers(state = [], action) {
 }
 
 const rootReducer = combineReducers({
-	Appointments,
-	Providers,
-	Patients,
+	appointments,
+	providers,
+	patients,
 	patient,
-	patientappointments,
-	Requests,
+	requests,
 })
 
 export default rootReducer

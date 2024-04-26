@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import {
 	Box,
-	Divider,
 	Drawer,
 	List,
 	ListItem,
-	ListItemText,
 	ListItemButton,
+	ListItemText,
 	Toolbar,
+	Divider,
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { NavLink, Routes, Route } from 'react-router-dom'
 import { getAllData } from '../../api/api'
 import MedicalAppointment from '../Appointment/medicalappointment'
 import Appointments from '../Patient/appointments'
@@ -23,10 +23,10 @@ const drawerWidth = 240
 
 export default function Eva() {
 	const dispatch = useDispatch()
+
 	useEffect(() => {
 		getAllData()
 			.then((data) => {
-				console.log(data)
 				dispatch({ type: 'SET_PATIENTS', patients: data.patients })
 				dispatch({
 					type: 'SET_APPOINTMENTS',
@@ -35,11 +35,8 @@ export default function Eva() {
 				dispatch({ type: 'SET_REQUESTS', requests: data.requests })
 				dispatch({ type: 'SET_PROVIDERS', providers: data.providers })
 			})
-			.catch((error) => {
-				console.error('Error fetching data:', error)
-			})
-	}, [])
-
+			.catch((error) => console.error('Error fetching data:', error))
+	}, [dispatch])
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<Drawer
@@ -58,28 +55,20 @@ export default function Eva() {
 				</Toolbar>
 				<Divider />
 				<List>
-					<ListItem disablePadding>
-						<NavLink to={`/`}>
-							<ListItemButton>
-								<ListItemText primary={`Home`} />
-							</ListItemButton>
-						</NavLink>
-					</ListItem>
-					<ListItem disablePadding>
-						<NavLink to={`/requests`}>
-							<ListItemButton>
-								<ListItemText primary={`Requests`} />
-							</ListItemButton>
-						</NavLink>
-					</ListItem>
+					{['Home', 'Requests'].map((text, index) => (
+						<ListItem key={text} disablePadding>
+							<NavLink to={`/${text.toLowerCase()}`}>
+								<ListItemButton>
+									<ListItemText primary={text} />
+								</ListItemButton>
+							</NavLink>
+						</ListItem>
+					))}
 				</List>
 			</Drawer>
 			<Box
-				sx={{
-					flexGrow: 1,
-					bgcolor: 'background.default',
-					p: 3,
-				}}>
+				component="main"
+				sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
 				<Routes>
 					<Route path="/" element={<Scheduling />} />
 					<Route
@@ -93,3 +82,23 @@ export default function Eva() {
 		</Box>
 	)
 }
+
+/*
+* const dispatch = useDispatch()
+	useEffect(() => {
+		getAllData()
+			.then((data) => {
+				console.log(data)
+				dispatch({ type: 'SET_PATIENTS', patients: data.patients })
+				dispatch({
+					type: 'SET_APPOINTMENTS',
+					appointments: data.appointments,
+				})
+				dispatch({ type: 'SET_REQUESTS', requests: data.requests })
+				dispatch({ type: 'SET_PROVIDERS', providers: data.providers })
+			})
+			.catch((error) => {
+				console.error('Error fetching data:', error)
+			})
+	}, [])
+* */
